@@ -1,0 +1,6 @@
+RewriteEngine On 
+RewriteRule ^([a-z]+)/?$ index.php?act=$1&
+RewriteRule ^character/([0-9a-zA-Z]+)/?$ index.php?character=$1&
+RewriteRule ^character/([0-9a-zA-Z]+)/([a-z]+)/?$ index.php?character=$1&category=$2&
+RewriteRule ^characters/(.*)/?$ index.php?act=characters&searchQuery=$1&
+RewriteRule ^guild/([0-9]+)/?$ index.php?guild=$1&

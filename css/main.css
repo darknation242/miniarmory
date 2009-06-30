@@ -1,0 +1,352 @@
+html,body {
+	height: 100%;
+	font:11px/18px "Trebuchet MS",Arial,Helvetica,sans-serif;
+}
+.noscript-bg {
+	background-color:black;
+	height:100%;
+	width:100%;
+	left:0;
+	opacity:0.8;
+	position: absolute;
+	top:0;
+	width:100%;
+	z-index:9999;
+}
+.noscript-bg span {
+	z-index:10001;
+	top:40%;
+	position:absolute;
+	color:#FFF;
+	font-size:36px;
+}
+.hidden2 { visibility:hidden;}
+.hidden {display:none;}
+body { font-family: Arial; margin-left: 0px; margin-top: 12px; background-color: #000; background: #000 url('images/wotlk_bg.jpg') repeat-x top; }
+a:link,a:active,a:visited { text-decoration: none; color: #000; border: none; }
+
+img {border:none;}
+img.header-image { width:220px; height:105px;}
+a:hover { text-decoration: underline; }
+.menu { margin:auto; text-align:center;width: 75%; border: none; padding-left: 6px; padding-top: 14px; background: url('images/menu-header.png') top center no-repeat; font-size: 13pt; height: 28px; color: #F6F6F6; }
+#credits-div { text-align: center; font-family: arial; padding-top:50px; width: 100%; font-size: 8pt; }
+.main { padding-left: 24px; padding-bottom: 20px; padding-top: 10px; width:85%; }
+#loading-box { position: absolute;z-index:10; right: 0px; top: 0px; border: none; color: #EEE; height: 100px; font-size: 15pt; text-align: center; background: url('images/loading-bg.gif') no-repeat top right; width: 145px; height: 43px; z-index: 30; font-weight: bold; padding-top: 9px; padding-right: 4px; display: none; }
+.header { position: static; width:100%; height: 115; }
+.container-top { width: 100%; height: 170px; margin: 0; padding: 0; background: url("images/parch-top.png") no-repeat top; }
+.container-sides { margin: 0; padding: 0; background: url("images/parch-sides.png") repeat-y center; }
+.container-bot { margin: 0; padding: 0; background: url("images/parch-bot.png") no-repeat bottom; height:170px; }
+
+h1 { font-family: Georgia, Arial, Helvetica; font-size: 18pt; letter-spacing: -1px; }
+h3 { font-family: Georgia, Arial, Helvetica; font-size: 14pt; letter-spacing: -1px; }
+
+.header-text { font-family: Georgia, Arial, Helvetica; font-size: 22px; letter-spacing: 0px; font-weight: bold; color: #FFF; position: relative; }
+.header-shadow { font-family: Georgia, Arial, Helvetica; font-size: 22px; letter-spacing: 0px; font-weight: bold; color: #000; }
+.page-header { width: 100%; position: relative; top: -100px; }
+.page-subheader { font-family: "Trebuchet MS", Arial, Helvetica; font-size: 12px; font-weight: bold; }
+
+.itemicon { height: 50px; width: 50px; }
+
+
+
+/* --- Global Content CSS --- */
+/* -- Borders -- */
+.content-table { padding: 0px; margin: 0;width: auto; margin:auto; max-width:800px; }
+.content-corner { width: 13px; height: 13px !important; padding: 0px; }
+.content-side { width: 13px; padding: 0px; }
+.content-top { height: 13px; padding: 0px; }
+.content-border-tl { background: url('images/border-topleft.gif') no-repeat bottom right; }
+.content-border-tr { background: url('images/border-topright.gif') no-repeat bottom left; }
+.content-border-right { background: url('images/border-right.gif') repeat-y left; }
+.content-border-left { background: url('images/border-left.gif') repeat-y right; }
+.content-border-top { background: url('images/border-top.gif') repeat-x bottom; }
+.content-border-bottom { background: url('images/border-bottom.gif') repeat-x top; }
+.content-border-bl { background: url('images/border-bottomleft.gif') no-repeat top right; }
+.content-border-br { background: url('images/border-bottomright.gif') no-repeat top left; }
+.content-header { background: url('images/detail/items/h-items.jpg') top left no-repeat; padding-left: 40px; height: 46px; }
+.content-header-right { background: url('images/detail/info-header-bg.gif') top right repeat-x; }
+.content { background: url('images/background.gif'); padding: 10px; font-family: Tahoma, Arial, Helvetica, Sans-Serif; max-width:850px; }
+
+
+.csearch-input {
+width: 400px;
+height: 71px;
+padding-left: 121px;
+background: url('images/search-background.gif') no-repeat;
+}
+.csearch-input input {
+color: #FFF;
+background: #000;
+font-family: "Trebuchet MS", Arial, Helvetica;
+font-size: 11px;
+font-weight: bold;
+border: 1px solid #66A5F2;
+padding: 2px;
+text-align: center;
+}
+.csearch-input input:focus {
+border: 1px solid #AAEAFF;
+}
+.csearch-button {
+width: 73px;
+height: 29px;
+background: url('images/search-button.gif') no-repeat;
+position: relative;
+left: -95px;
+top: 2px;
+}
+.csearch-button:active {
+
+background: url('images/search-button-hover.gif') no-repeat;
+}
+.csearch-linktothis-header {
+font-size: 12px;
+font-weight: bold;
+font-family: "Trebuchet MS", Arial, Helvetica;
+}
+.csearch-linktothis {
+font-size: 12px;
+font-family: "Trebuchet MS", Arial, Helvetica;
+}
+.csearch-results-header {
+font-weight: bold;
+color: #333;
+font-size: 16px;
+font-family: Georgia, "Times New Roman", Arial, Helvetica;
+letter-spacing: 0px;
+}
+.csearch-results-header-big {
+font-weight: bold;
+color: #333;
+font-size: 26px;
+font-family: Georgia, "Times New Roman", Arial, Helvetica;
+letter-spacing: -1px;
+}
+.csearch-results-info {
+color: #000;
+font-size: 14px;
+font-family: Georgia, "Times New Roman", Arial, Helvetica;
+}
+
+.csearch-results-loading {
+color: #FFF;
+border: 1px solid #666;
+background: #000;
+padding: 2px;
+font-size: 14px;
+font-family: Georgia, "Times New Roman", Arial, Helvetica;
+}
+.csearch-results-table {
+width: 800px;
+border-collapse: collapse;
+}
+.csearch-results-table-header {
+height: 24px;
+background: url('images/mh-bg.gif') repeat-x top left;
+padding-left: 4px;
+padding-right: 4px;
+color: #FFF;
+font-family: "Trebuchet MS", Arial, Helvetica;
+font-size: 12px;
+font-weight: bold;
+}
+.no-sort:hover {
+	background: url('images/mh-bg.gif') repeat-x top left !important;
+	cursor: default !important;
+}
+.csearch-results-table-header a, .csearch-results-table-header:hover a {color:#FFF;}
+.csearch-results-table-header:hover {
+height: 24px;
+background: url('images/mh-bg2.gif') repeat-x top left;
+padding-left: 4px;
+cursor:pointer;
+padding-right: 4px;
+color: #FFF;
+font-family: "Trebuchet MS", Arial, Helvetica;
+font-size: 12px;
+font-weight: bold;
+}
+.csearch-results-table-bottom {
+height: 24px;
+background: url('images/tableheader.gif') repeat-x top left;
+padding-left: 4px;
+padding-right: 4px;
+color: #FFF;
+font-family: "Trebuchet MS", Arial, Helvetica;
+font-size: 12px;
+font-weight: bold;
+}
+.csearch-results-table-item {
+height: 26px;
+background: url('images/tabledata.gif') repeat-x top left;
+padding-left: 4px;
+padding-right: 4px;
+color: #000;
+font-family: "Trebuchet MS", Arial, Helvetica;
+font-size: 12px;
+font-weight: bold;
+}
+tr.csearch-results-table-item:hover {
+height: 26px;
+background: url('images/hovers.png') repeat-x top left;
+padding-left: 4px;
+padding-right: 4px;
+color: #000;
+font-family: "Trebuchet MS", Arial, Helvetica;
+font-size: 12px;
+font-weight: bold;
+}
+.csearch-results-table-item a {
+color: #206180;
+}
+.csearch-results-table-item a:hover {
+color: #3399CC;
+text-decoration: none;
+}
+.csearch-results-table-item-ordered {
+height: 26px;
+background: url('images/tabledata.gif') repeat-x top left;
+padding-left: 4px;
+padding-right: 4px;
+color: #000;
+font-family: "Trebuchet MS", Arial, Helvetica;
+font-size: 12px;
+font-weight: bold;
+background-position: 0px -27px;
+}
+.csearch-results-table-item-ordered a {
+color: #206180;
+}
+.csearch-results-table-item-ordered a:hover {
+color: #3399CC;
+text-decoration: none;
+}
+.nopadding {
+padding: 0px;
+}
+.rightalign {
+text-align: right;
+}
+.leftalign {
+text-align: left;
+}
+.centeralign {
+text-align: center;
+}
+.csearch-page-info {
+font-weight: bold;
+font-family: "Trebuchet MS";
+font-size: 11px;
+text-align: left;
+}
+.csearch-page-button {
+width: 32px;
+height: 24px;
+padding-bottom: 6px;
+position: relative;
+top: 0px;
+padding-left: 14px;
+padding-right: 14px;
+padding-top: 4px;
+}
+.paging-top {
+	background: url(images/paging-top.gif);
+	width:100%;
+	height:28px;
+	padding:7px 0 0;
+}
+.result-navi{
+	float:right;
+}
+
+.csearch-page-number {
+background: url('images/page-background.gif') no-repeat top;
+}
+.csearch-page-number:hover {
+background-position: 1px -24px;
+}
+.csearch-page-number-selected {
+background: url('images/page-selected.gif') no-repeat top;
+background-position: 1px 0px;
+}
+
+.page_fastprev_disabled {
+background: url('images/fastprev_dis.gif') no-repeat top;
+}
+.page_fastprev {
+background: url('images/fastprev.gif') no-repeat top;
+}
+.page_fastprev:active {
+background-position: -2px -24px;
+}
+.page_prev_disabled {
+background: url('images/prev_dis.gif') no-repeat top;
+}
+.page_prev {
+background: url('images/prev.gif') no-repeat top;
+}
+.page_prev:active {
+background-position: -2px -24px;
+}
+
+.page_next_disabled {
+background: url('images/next_dis.gif') no-repeat top;
+}
+.page_next {
+background: url('images/next.gif') no-repeat top;
+}
+
+.page_next:active {
+background-position: -2px -24px;
+}
+
+.page_fastnext_disabled {
+background: url('images/fastnext_dis.gif') no-repeat top;
+}
+.page_fastnext {
+background: url('images/fastnext.gif') no-repeat top;
+}
+.page_fastnext:active {
+background-position: -2px -24px;
+}
+
+
+#status_bar {
+	font-size:15px;
+	font-weight:bold;
+}
+
+div.langs {
+	position:absolute;
+	z-index:500;
+	left:15px;
+	top:10px;
+}
+
+span.big {
+	font-weight:bold;
+	color:#F60;
+}
+
+
+/* -- Main Tooltip CSS -- */
+#dhtmltooltip{ position: absolute; visibility: hidden; z-index: 100; font-size: 13px; color: #FFF; font-family: "Trebuchet MS", Verdana, Helvetica; }
+
+/* -- Tooltip Borders -- */ 
+.tooltip-table { padding: 0px; margin: 0; width: auto; filter: alpha(opacity=90); -moz-opacity: 0.9; opacity: 0.9; }
+.tooltip-corner { width: 7px; height: 7px !important; padding: 0px; }
+.tooltip-side { width: 7px; padding: 0px; }
+.tooltip-top { height: 7px; padding: 0px; }
+.tooltip-tl { background: url('images/tooltips/tooltip-tl.png') no-repeat bottom right; }
+.tooltip-tr { background: url('images/tooltips/tooltip-tr.png') no-repeat bottom left; }
+.tooltip-right { background: url('images/tooltips/tooltip-right.png') repeat-y left; }
+.tooltip-left { background: url('images/tooltips/tooltip-left.png') repeat-y right; } 
+.tooltip-top { background: url('images/tooltips/tooltip-top.png') repeat-x bottom; }
+.tooltip-bottom { background: url('images/tooltips/tooltip-bottom.png') repeat-x top; }
+.tooltip-bl { background: url('images/tooltips/tooltip-bl.png') no-repeat top right; }
+.tooltip-br { background: url('images/tooltips/tooltip-br.png') no-repeat top left; }
+.tooltip-content { background: #0C1227; padding: 3px; font-family: Tahoma, Arial, Helvetica, Sans-Serif; }
+.profile-tooltip-header { font-weight: bold; color: #FFF; font-size: 12px; }
+.profile-tooltip-description { color: #FFD200; font-size: 12px; }
+.tooltip-whitetext { color: #FFF; font-size: 12px; }
+
