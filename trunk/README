@@ -10,7 +10,7 @@ Copyright (C) by RoXeon (roxeon@gmail.com)
         1. Unpack file images/icon.zip into images/
         2. Create database for armory and put into this database all files contained in sql/armory.zip archive
         3. CHMOD all folders in images/ directory to 701 (NOT FILES!)
-        4. CHMOD +w cache/ logs/ for php daemon user
+        4. CHMOD +w cache/ logs/ images/icon/ for php daemon user
         
     II. DATABASE SETUP
     	1. Edit config.php file and enter database information. Everything should be clear.
