@@ -1,5 +1,5 @@
 <?php
-define('SCRIPT_VERSION','2.04 Beta');
+define('SCRIPT_VERSION','2.1 Beta');
 
 $EQ_SLOT[0] = 'head_equ';
 $EQ_SLOT[1] = 'neck_equ';
