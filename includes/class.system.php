@@ -45,7 +45,7 @@ class system {
 			$realm_ids.=$realm[0].',';
 		}
 		$realms = $mysql->getRows('SELECT id,name from `realmlist` WHERE `id` IN (?1-1)',$realm_ids,'realm');
-		if(!$realms) {die(mysql_error());return;}
+		if(!$realms) {die('Cannot load realmlist!');return;}
 		foreach($realms as $realm) {
 			$this->Realms[$realm['id']] = $realm['name'];
 			foreach($config['realms'] as $val) {
