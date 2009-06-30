@@ -1,6 +1,6 @@
 <?php
 $tp2 = new template();
-$tp2->add('talents/'.$character->classToString($character->class).'_new');
+$tp2->add('talents/'.$character->classToString($character->class).'_'.($config['mangos_version']==0?'old':'new'));
 for($i=0;$i<3;$i++) 
    $tp2->assign('tl'.$i,$character->talentCount[$i]);
    

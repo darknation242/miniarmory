@@ -1,6 +1,6 @@
 <?php
 
-if($config['mangos_version']!=0) $tp->assign('achiButton','<div class="char-sheet" onClick="characterSwitchTo(\'achievements\');">
+$tp->assign('achiButton','<div class="char-sheet" style="display:'.($config['mangos_version']==0?'none':'block').'" onClick="characterSwitchTo(\'achievements\');">
 <div class="smallframe-a"></div>
 <div class="smallframe-b" id="switch_achievements">{$LGachievements}</div>
 <div class="smallframe-c"></div></div>');
