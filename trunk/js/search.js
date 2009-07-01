@@ -107,7 +107,13 @@ function sort_cmp(a,b) {
 	if(sort_asc) {
 		tmp=a;a=b;b=tmp;	
 	}
-	if(a.getElementsByTagName(sort_by)[0].childNodes[0].nodeValue>b.getElementsByTagName(sort_by)[0].childNodes[0].nodeValue) return 1;
+	v1 = a.getElementsByTagName(sort_by)[0].childNodes[0].nodeValue;
+	v2 = b.getElementsByTagName(sort_by)[0].childNodes[0].nodeValue
+	if(!isNaN(Number(v1))) {
+		v1 = Number(v1);
+		v2 = Number(v2);
+	}
+	if(v1>v2) return 1;
 	else return -1;
 }
 
