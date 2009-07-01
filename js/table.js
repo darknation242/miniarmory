@@ -1,10 +1,3 @@
-function test() {
-	var row = document.createElement('TR');
-	var td1 = document.createElement('TD');
-	td1.appendChild(document.createTextNode('dsadsada'));
-	row.appendChild(td1);
-	document.getElementById('test_table').appendChild(row);
-}
 
 function delRows(table) {
 	while(document.getElementById(table).rows.length>1) {
