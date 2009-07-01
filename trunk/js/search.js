@@ -331,9 +331,8 @@ function table_bottom(count,type) {
 				pages = parseInt(count/per_page);
 				
 				if(count%per_page>0) pages++;
-				if(pages==0)pages=1;
+				if(pages==0) pages=1;
 				lastpage=pages-1;
-				if(lastpage<=0) lastpage=1;
 				pp='';
 				for(i=0;i<per_pages.length;i++) {
 					pp+='<option value="'+per_pages[i]+'" '+(per_pages[i]==per_page?'selected':'')+'>'+per_pages[i]+'</option>';	
