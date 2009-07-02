@@ -86,6 +86,7 @@ function setPerPage(fg) {
 	if(fg) {
 		if(sel.value<=0) return;
 		per_page = sel.value;
+		page=0;
 		view();
 	}
 	sel = document.getElementById('per_page');
