@@ -71,13 +71,13 @@ for(;$i<count($character->skills);$i++) {
 }
 $tp->assign('skills',$_SYSTEM->htmlcode($skills.'</table></td></tr></table>'));
 */
-// Gold 
+// Gold
 
 $tp->assign('gold',$_SYSTEM->htmlcode($character->getGold()));
 
 // Ustawianie profesji
 
-// Primary 
+// Primary
 
 $i=2;
 foreach($character->prof_1 as $prof) {
@@ -132,26 +132,26 @@ function color($bonus,$stat) {
 	else if($bonus<0) return '<span style="color:red;">'.($bonus+$stat).'</span>';
 	else return $stat;
 }
-$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['strength'].' '.($character->stats['strength_base']).' + '.color($character->stats['strength_bonus'],0).'</span><br><span class="description">'.$_LANGUAGE->text['increases'].' '.$_LANGUAGE->text['attack_power'].' '.$_LANGUAGE->text['by'].' '.$character->stats['melee_ap_mod'].'</span>').'\')">
 '.$_LANGUAGE->text['strength'].':</span></td><td class="stats_right">'.color($character->stats['strength_bonus'],$character->stats['strength_base']).'</td></tr>';
 
-$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['agility'].' '.($character->stats['agility_base']).' + '.color($character->stats['agility_bonus'],0).'</span><br><span class="description">'.$_LANGUAGE->text['increases'].' '.$_LANGUAGE->text['armor'].' '.$_LANGUAGE->text['by'].' '.$character->stats['armor_mod'].'<br>'.$_LANGUAGE->text['increases'].' '.$_LANGUAGE->text['attack_power'].' '.$_LANGUAGE->text['by'].' '.$character->stats['melee_ap_mod_agility'].'</span>').'\')">
 '.$_LANGUAGE->text['agility'].':</span></td><td class="stats_right">'.color($character->stats['agility_bonus'],$character->stats['agility_base']).'</td></tr>';
 
-$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['stamina'].' '.($character->stats['stamina_base']).' + '.color($character->stats['stamina_bonus'],0).'</span><br><span class="description">'.$_LANGUAGE->text['increases'].' '.$_LANGUAGE->text['health'].' '.$_LANGUAGE->text['by'].' '.$character->stats['health_mod_stamina'].'</span>').'\')">
 '.$_LANGUAGE->text['stamina'].':</span></td><td class="stats_right">'.color($character->stats['stamina_bonus'],$character->stats['stamina_base']).'</td></tr>';
-$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['intellect'].' '.($character->stats['intellect_base']).' + '.color($character->stats['intellect_bonus'],0).'</span><br><span class="description">'.$_LANGUAGE->text['increases'].' '.$_LANGUAGE->text['mana'].' '.$_LANGUAGE->text['by'].' '.$character->stats['mana_mod_intellect'].'</span>').'\')">
 '.$_LANGUAGE->text['intellect'].':</span></td><td class="stats_right">'.color($character->stats['intellect_bonus'],$character->stats['intellect_base']).'</td></tr>';
 
-$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['spirit'].' '.($character->stats['spirit_base']).' + '.color($character->stats['spirit_bonus'],0).'</span>').'\')">
 '.$_LANGUAGE->text['spirit'].':</span></td><td class="stats_right">'.color($character->stats['spirit_bonus'],$character->stats['spirit_base']).'</td></tr>';
 
-$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$base_stats .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['armor'].' '.($character->stats['armor_base']).' + '.color($character->stats['armor_bonus'],0).'</span><br><span class="description">'.$_LANGUAGE->text['reduces'].' '.$_LANGUAGE->text['ps_damage_taken'].' '.$_LANGUAGE->text['by'].' '.$character->stats['armor_mod'].'%</span>').'\')">
 '.$_LANGUAGE->text['armor'].':</span></td><td class="stats_right">'.color($character->stats['armor_bonus'],$character->stats['armor_base']).'</td></tr>';
 
@@ -161,6 +161,7 @@ if($character->items[15]) {
 	$tip.='<span class="tooltip-header">'.$_LANGUAGE->text['main_hand'].'</span><br><span class="description">';
 	$tip.=$_LANGUAGE->text['speed'].': '.$character->stats['melee_speed'].'<br>';
 	$tip.=$_LANGUAGE->text['damage'].': '.$character->stats['melee_damage_min'] .' - '.$character->stats['melee_damage_max'].'<br>';
+	if(!$character->stats['melee_speed']) $character->stats['melee_speed'] = 1;
 	$tip.=$_LANGUAGE->text['dps'].': '.round((($character->stats['melee_damage_min']+$character->stats['melee_damage_max'])/2)/$character->stats['melee_speed'],1).'<br>';
 	$tip.= '</span>';
 }
@@ -168,23 +169,24 @@ if($character->items[16]) {
 	$tip.='<span class="tooltip-header">'.$_LANGUAGE->text['off_hand'].'</span><br><span class="description">';
 	$tip.=$_LANGUAGE->text['speed'].': '.$character->stats['melee_speed_off'].'<br>';
 	$tip.=$_LANGUAGE->text['damage'].': '.$character->stats['melee_damage_min_off'] .' - '.$character->stats['melee_damage_max_off'].'<br>';
+	if(!$character->stats['melee_speed_off']) $character->stats['melee_speed_off'] = 1;
 	$tip.=$_LANGUAGE->text['dps'].': '.round((($character->stats['melee_damage_min_off']+$character->stats['melee_damage_max_off'])/2)/$character->stats['melee_speed_off'],1).'<br>';
 	$tip.= '</span>';
 }
-$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode($tip).'\')">
 '.$_LANGUAGE->text['damage'].':</span></td><td class="stats_right">'.$character->stats['melee_damage_min'] .' - '.$character->stats['melee_damage_max'] .'</td></tr>';
 
-// Speed 
+// Speed
 $tip='';
 if($character->items[15]) {
 	$tip.= $character->stats['melee_speed'];
 }
-if($character->items[16]&&$character->items[15]) $tip.=' / '; 
+if($character->items[16]&&$character->items[15]) $tip.=' / ';
 if($character->items[16]) {
 	$tip.= $character->stats['melee_speed_off'];
 }
-$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['speed'].' '.$tip.'</span>').'\')">
 '.$_LANGUAGE->text['speed'].':</span></td><td class="stats_right">'.$tip.'</td></tr>';
 
@@ -193,23 +195,23 @@ onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LA
 $tip=$character->stats['melee_ap_base'].' + '.color($character->stats['melee_ap_bonus'],0);
 $tip2 = '<span class="description">'.$_LANGUAGE->text['increases'].' '.$_LANGUAGE->text['damage'].' '.$_LANGUAGE->text['by'].' '.round(($character->stats['melee_ap_bonus']+$character->stats['melee_ap_base'])/14,1).' '.$_LANGUAGE->text['dps'].'</span>';
 
-$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['attack_power'].' '.$tip.'</span><br>'.$tip2).'\')">
 '.$_LANGUAGE->text['attack_power'].':</span></td><td class="stats_right">'.color($character->stats['melee_ap_bonus'],$character->stats['melee_ap_base']).'</td></tr>';
 
 
-$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['hit_rating'].' '.$character->stats['melee_hit_rating'].'</span>').'\')">'.$_LANGUAGE->text['hit_rating'].':</span></td><td class="stats_right">'.$character->stats['melee_hit_rating'].'</td></tr>';
 
 $tip='';
 if($character->items[15]) {
 	$tip.= $character->stats['melee_crit'].'%';
 }
-if($character->items[16]&&$character->items[15]) $tip.=' / '; 
+if($character->items[16]&&$character->items[15]) $tip.=' / ';
 if($character->items[16]) {
 	$tip.= $character->stats['melee_crit_off'].'%';
 }
-$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['crit_chance'].' '.$tip.'</span>').'\')">'.$_LANGUAGE->text['crit_chance'].':</span></td><td class="stats_right">'.$tip.'</td></tr>';
 
 
@@ -217,7 +219,7 @@ $tip='';
 if($character->items[15]) {
 	$tip.= $character->stats['melee_expertise'];
 }
-if($character->items[16]&&$character->items[15]) $tip.=' / '; 
+if($character->items[16]&&$character->items[15]) $tip.=' / ';
 if($character->items[16]) {
 	$tip.= $character->stats['melee_expertise_off'];
 }
@@ -226,11 +228,11 @@ $tip.='</span><br><span class="description">'.$_LANGUAGE->text['reduces'].' '.$_
 if($character->items[15]) {
 	$tip.= $character->stats['melee_expertise_proc'].'%';
 }
-if($character->items[16]&&$character->items[15]) $tip.=' / '; 
+if($character->items[16]&&$character->items[15]) $tip.=' / ';
 if($character->items[16]) {
 	$tip.= $character->stats['melee_expertise_proc_off'].'%';
 }
-$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$melee .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['expertise'].' '.$tip.'</span>').'\')">'.$_LANGUAGE->text['expertise'].':</span></td><td class="stats_right">'.$tip2.'</td></tr>';
 
 
@@ -241,14 +243,14 @@ $tip.='<span class="tooltip-header">'.$_LANGUAGE->text['ranged'].'</span><br><sp
 	$tip.=$_LANGUAGE->text['damage'].': '.($character->items[17] ? $character->stats['ranged_damage_min'] .' - '.$character->stats['ranged_damage_max'] : 'N/A').'<br>';
 	$tip.=$_LANGUAGE->text['dps'].': '.($character->items[17] ? round((($character->stats['ranged_damage_min']+$character->stats['ranged_damage_max'])/2)/$character->stats['ranged_speed'],1) : 'N/A').'<br>';
 	$tip.= '</span>';
-$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode($tip).'\')">
 '.$_LANGUAGE->text['damage'].':</span></td><td class="stats_right">'.($character->items[17] ? $character->stats['ranged_damage_min'] .' - '.$character->stats['ranged_damage_max'] : 'N/A').'</td></tr>';
 
-// Speed 
+// Speed
 $tip='';
 $tip.= ($character->items[17] ? $character->stats['ranged_speed'] : 'N/A');
-$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['speed'].' '.$tip.'</span>').'\')">
 '.$_LANGUAGE->text['speed'].':</span></td><td class="stats_right">'.$tip.'</td></tr>';
 
@@ -257,17 +259,17 @@ onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LA
 $tip=$character->stats['ranged_ap_base'].' + '.color($character->stats['ranged_ap_bonus'],0);
 $tip2 = '<span class="description">'.$_LANGUAGE->text['increases'].' '.$_LANGUAGE->text['damage'].' '.$_LANGUAGE->text['by'].' '.round(($character->stats['ranged_ap_bonus']+$character->stats['ranged_ap_base'])/14,1).' '.$_LANGUAGE->text['dps'].'</span>';
 
-$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['attack_power'].' '.$tip.'</span><br>'.$tip2).'\')">
 '.$_LANGUAGE->text['attack_power'].':</span></td><td class="stats_right">'.color($character->stats['ranged_ap_bonus'],$character->stats['ranged_ap_base']).'</td></tr>';
 
 
-$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['hit_rating'].' '.$character->stats['ranged_hit_rating'].'</span>').'\')">'.$_LANGUAGE->text['hit_rating'].':</span></td><td class="stats_right">'.$character->stats['ranged_hit_rating'].'</td></tr>';
 
 $tip='';
 $tip.= $character->stats['ranged_crit'].'%';
-$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$ranged .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['crit_chance'].' '.$tip.'</span>').'\')">'.$_LANGUAGE->text['crit_chance'].':</span></td><td class="stats_right">'.$tip.'</td></tr>';
 
 
@@ -278,14 +280,14 @@ $tip='<span class="description">';
 foreach($tmp as $tt)
 $tip.='<img alt="" width="15" height="15" src="'.$_DOMAIN.'images/res-'.$tt.'.gif"> '.$_LANGUAGE->text[$tt].' '.$character->stats['spell_bonus_'.$tt].'<br>';
 $tip.='</span>';
-$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['bonus_damage'].' '.$character->stats['spell_bonus'].'</span><br>'.$tip).'\')">'.$_LANGUAGE->text['bonus_damage'].':</span></td><td class="stats_right">'.$character->stats['spell_bonus'].'</td></tr>';
 
 
-$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['bonus_healing'].' '.$character->stats['spell_bonus_healing'].'</span>').'\')">'.$_LANGUAGE->text['bonus_healing'].':</span></td><td class="stats_right">'.$character->stats['spell_bonus_healing'].'</td></tr>';
 
-$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['hit_rating'].' '.$character->stats['spell_hit_rating'].'</span>').'\')">'.$_LANGUAGE->text['hit_rating'].':</span></td><td class="stats_right">'.$character->stats['spell_hit_rating'].'</td></tr>';
 
 $tmp = array('arcane','fire','frost','nature','shadow');
@@ -294,24 +296,24 @@ foreach($tmp as $tt)
 $tip.='<img alt="" width="15" height="15" src="'.$_DOMAIN.'images/res-'.$tt.'.gif"> '.$_LANGUAGE->text[$tt].' '.$character->stats['spell_crit_'.$tt].'%<br>';
 $tip.='</span>';
 
-$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['crit_rating'].' '.$character->stats['spell_crit_rating'].'</span><br>'.$tip).'\')">'.$_LANGUAGE->text['crit_chance'].':</span></td><td class="stats_right">'.$character->stats['spell_crit'].'%</td></tr>';
 
 
-$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$spell .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['mana_regen'].' '.$character->stats['mana_regen'].'</span><br><span class="description">'.$character->stats['mana_regen'].' '.$_LANGUAGE->text['mana_regen_p_5_s_w_n_t'].'</span>').'\')">'.$_LANGUAGE->text['mana_regen'].':</span></td><td class="stats_right">'.$character->stats['mana_regen'].'</td></tr>';
 
 // Defense
-$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['armor'].' '.($character->stats['armor_base']).' + '.color($character->stats['armor_bonus'],0).'</span><br><span class="description">'.$_LANGUAGE->text['reduces'].' '.$_LANGUAGE->text['ps_damage_taken'].' '.$_LANGUAGE->text['by'].' '.$character->stats['armor_mod'].'%</span>').'\')">
 '.$_LANGUAGE->text['armor'].':</span></td><td class="stats_right">'.color($character->stats['armor_bonus'],$character->stats['armor_base']).'</td></tr>';
 
 
-$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['dodge'].' '.$character->stats['dodge'].'%</span>').'\')">'.$_LANGUAGE->text['dodge'].':</span></td><td class="stats_right">'.$character->stats['dodge'].'%</td></tr>';
-$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['parry'].' '.$character->stats['parry'].'%</span>').'\')">'.$_LANGUAGE->text['parry'].':</span></td><td class="stats_right">'.$character->stats['parry'].'%</td></tr>';
-$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();" 
+$defense .= '<tr><td class="stats_left"><span class="description" onMouseOut="tooltip_hide();"
 onMouseOver="tooltip(\''.$_SYSTEM->htmlcode('<span class="tooltip-header">'.$_LANGUAGE->text['block'].' '.$character->stats['block'].'%</span>').'\')">'.$_LANGUAGE->text['block'].':</span></td><td class="stats_right">'.$character->stats['block'].'%</td></tr>';
 
 $tp->assign('base_stats',$base_stats);

@@ -99,11 +99,11 @@ class character {
   function load_achievements() {
 	  global $mysql,$config;
 	  $r = $mysql->getRows("select * from character_achievement where guid = ?1",$this->guid,'char');
-	  foreach($r as $row) {
+	  if($r) foreach($r as $row) {
 		  $this->achievement[$row['achievement']] = $row['date'];
 	  }
 	  $r = $mysql->getRows("select * from character_achievement_progress where guid = ?1",$this->guid,'char');
-	  foreach($r as $row) {
+	  if($r) foreach($r as $row) {
 		  $this->achievement_progress[$row['criteria']]['date'] = $row['date'];
 		  $this->achievement_progress[$row['criteria']]['counter'] = $row['counter'];
 	  }
