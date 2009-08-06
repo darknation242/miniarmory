@@ -2,7 +2,7 @@
 class character {
 
   public $lastupdate;
-	
+
   public $guid;
   public $name;
   public $race;
@@ -18,32 +18,32 @@ class character {
   public $hk;
   public $items_names;
   public $arenapoints;
-  
+
   public $item_tooltips;
   public $item_instance;
-  
+
   public $prof_1;
   public $prof_2;
   public $skills;
   public $talentCount, $talentSpec, $talentLink, $talentInfo = array();
-  
+
   public $achievement = array(),$achievement_progress = array();
-  
+
   public $data;
-  
+
   public $stats; // No i mamy sobie statystyki. Ale jakie...?
   /* strength_bonus, agility_bonus, stamina_bonus, intellect_bonus, spirit_bonus, strength_base, agility_base, stamina_base, intellect_base, spirit_base, armor_bonus, armor_base, defence_rating, dodge, parry, block, holy_res, fire_res, frost_res, shadow_res, nature_res, arcane_res, melee_damage_min, melee_damage_max, melee_damage_min_off, melee_damage_max_off, melee_speed, melee_speed_off, melee_ap_base, melee_ap_bonus, meele_hit_rating, meele_crit_rating, melee_crit, melee_crit_off, ranged_damage_min, ranged_damage_max, ranged_speed, ranged_ap_base, ranged_ap_bonus, ranged_hit_rating, ranged_crit_rating, ranged_crit, spell_bonus_holy, spell_bonus_fire, spell_bonus_nature, spell_bonus_frost, spell_bonus_shadow, spell_bonus_arcane, spell_bonus, spell_bonus_healing, spell_hit_rating, spell_crit_rating, spell_crit_holy, spell_crit_fire, spell_crit_nature, spell_crit_frost, spell_crit_shadow, spell_crit_arcane, spell_crit */ // Takie :)
-  
+
   public $online;
- 
+
   function __construct($guid) {
 	  global $config,$SQL,$mysql,$_SYSTEM;
 	  $this->guid=-1;
-      
+
 	  $r = $mysql->getRow("SELECT name,race,class,totaltime,data,online,?1 as gender,?3 as guildid,?4 as guildrank
 	  FROM `characters` WHERE guid = ?2",CHAR_GENDER_OFFSET,$guid,SQL_template(CHAR_GUILD_OFFSET),SQL_template(CHAR_GUILD_OFFSET+1),'char');
 	  if(!$r) $_SYSTEM->error('Character not found!');
-	  if($r['guildid']) 
+	  if($r['guildid'])
 	      $r2 = $mysql->getRow("select * from `guild_rank` where guildid = ?1 and rid = ?2",$r['guildid'],$r['guildrank'],'char');
 	  // Ustawienie bazowych informacji
 	  if($r2) $this->guild_rank = $r2['rname'];
@@ -74,42 +74,42 @@ class character {
 	  $this->played[2] = $t_min;
 	  $this->realm = $_SYSTEM->Realms[$_SYSTEM->Realm];
 	  $this->guild_id = $this->data[CHAR_GUILD_ID_OFFSET];
-	  
+
 	  $this->stats = $this->read_stats();
-	  
+
 	  $this->read_skills();
-	  
+
 	  $this->sort_skills();
-	  
+
 	  $this->read_items();
-	  
+
 	  $this->load_reputation();
-	  
+
 	  $this->load_tooltips();
 
 	  $this->load_talents();
-	  
+
 	  $this->load_achievements();
-	  
+
 	  $this->lastupdate = time();
-	  
+
 	  return true;
   }
-  
+
   function load_achievements() {
 	  global $mysql,$config;
 	  $r = $mysql->getRows("select * from character_achievement where guid = ?1",$this->guid,'char');
 	  foreach($r as $row) {
-		  $this->achievement[$row['achievement']] = $row['date']; 
+		  $this->achievement[$row['achievement']] = $row['date'];
 	  }
 	  $r = $mysql->getRows("select * from character_achievement_progress where guid = ?1",$this->guid,'char');
 	  foreach($r as $row) {
-		  $this->achievement_progress[$row['criteria']]['date'] = $row['date']; 
+		  $this->achievement_progress[$row['criteria']]['date'] = $row['date'];
 		  $this->achievement_progress[$row['criteria']]['counter'] = $row['counter'];
 	  }
-	  
+
   }
-  
+
   function load_talent_info($list,$base) {
 	  global $mysql,$config;
 	  $d = $mysql->getRows("SELECT * FROM `spell` WHERE `id` IN (?1-1)",$list,'armory');
@@ -121,7 +121,7 @@ class character {
 		  $this->talentInfo[$base[$spell['id']][1]]['sBase'] = $base[$spell['id']][0];
 	  }
   }
-  
+
   function load_talents() {
 	global $mysql,$config;
 	$talentLink = '';
@@ -138,13 +138,13 @@ class character {
 		$talents = $mysql->getRows("SELECT rank1, rank2, rank3, rank4, rank5 FROM `talent` WHERE `ref_tab` = '?1' order by row,col",
 									   $spec['id'],'armory');
 		foreach($talents as $key => $value) {
-			$ids .= $value['rank1'].',';	
+			$ids .= $value['rank1'].',';
 		}
-		foreach($spells as $k => $v) { 
+		foreach($spells as $k => $v) {
 			$spell_ids.=$v['spell'].',';
 		}
 		$r = $mysql->getRows("SELECT id,SpellName FROM `spell` WHERE `id` IN (?1-1)",$ids.$spell_ids,'armory');
-		
+
 		foreach($r as $row) {
 			$SpellNames.="'".addslashes($row['SpellName']).'\',';
 			$NameToId[arrayName($row['SpellName'])] = $row['id'];
@@ -166,7 +166,7 @@ class character {
 			}
 		}
 		if($spells) {
-			
+
 			foreach($talents as $key => $value) {
 				$add='0';
 				$rank_1 = $Ranks[$value['rank1']][1];
@@ -190,10 +190,10 @@ class character {
 				$talentList .= $crr.',';  // Najwyzszy rank lub pierwszy jesli nie istnieje.
 				$baseList[$crr] = array($rank_1,$value['rank1']); // Potrzebujemy tablice ID pierwszych rankow.
 				$talentLink.=$add;
-				
+
 			}
 		}
-		
+
 		//die($talentList);
 		$this->talentCount[$i] = $c;
 		if($this->talentCount[$i]>$max) {
@@ -204,11 +204,11 @@ class character {
 	}
 	$this->talentLink = $talentLink;
 	$this->load_talent_info($talentList, $baseList);
-	
+
 	//die($this->talentLink);
-	
+
   }
-  
+
   function sort_skills() {
 	  global $mysql,$config;
 	  $new_skills = array();
@@ -222,14 +222,14 @@ class character {
 		  $id_list.=$value[0].',';
 	  $skill_data = $mysql->getRows("select * from `skillline` where id in(?1-1)",$id_list,'armory');
 	  foreach($this->skills as $value) {
-		  foreach($skill_data as $skill) 
+		  foreach($skill_data as $skill)
 		  	if($skill['id']==$value[0]) $data = $skill;// Malo wydajne ale krotkie. Lepiej wpieprzc do tablicy ale mi sie nie chce...
 		  if($data['ref_category'] == 7 || $data['ref_category'] == 8 || $data['ref_category'] == 10) $value[2] = $value[3] = 0;
 	  	  array_push($new_skills[$data['ref_category']]['data'], array($value[0], $data['name'], $value[2], $value[3], $data['description']));
 	  }
 	  $this->skills = $new_skills;
   }
-  
+
   function load_reputation() {
 	  global $mysql,$config;
 	    // Na poczatek kilka definicji
@@ -263,7 +263,7 @@ class character {
 		$reputation_bottom = -42000;
 		$MIN_REPUTATION_RANK = 0;
 		$MAX_REPUTATION_RANK = 8;
-		
+
 		// Wczytajmy i ustawmy nazwy bazowych frakcji
 	    foreach($faction_ihl as $key => $faction) $fc_list.=$key.',';
 		$fc = $mysql->getRows("SELECT id,name FROM `faction` WHERE `id` IN (?1-1)", $fc_list,'armory');
@@ -273,17 +273,17 @@ class character {
 			$this->reputation[$key]['faction'] = $value;
 			$this->reputation[$key]['name'] = $faction_name[$key];
 		}
-		
-		
-		
+
+
+
 	  // Wczytujemy informacje o reputacji
 	  $rep = $mysql->getRows("SELECT `faction`, `standing` FROM `character_reputation` WHERE `guid` ='?1' AND (`flags` & 1 = 1)", $this->guid,'char'); // Rep bohatera
 	  foreach($rep as $faction) $fc_list.=$faction['faction'].',';
 	  $fc = $mysql->getRows("SELECT * FROM `faction` WHERE `id` IN (?1-1)", $fc_list,'armory'); // Informacje o frakcjach
-	  
+
 	  foreach($rep as $faction) {
 		$stan = $faction['standing'];
-		foreach($fc as $f) 
+		foreach($fc as $f)
 		   if($f['id']==$faction['faction']) $fc_data = $f;
 		 for ($i = 0; $i < 4; $i++){
 			if ($fc_data["base_ref_chrraces_".$i] & (1 << ($this->race-1))) {
@@ -312,44 +312,44 @@ class character {
 		$data['rank_name'] = $rep_rank_name;
 		$data['rep'] = $rep;
 		$data['rep_cap'] = $rep_cap;
-		
+
 		$this->reputation[$fc_data["ref_faction_parent"]]['data'][count($this->reputation[$fc_data["ref_faction_parent"]]['data'])] = $data; // Moze jakis array_push...?
 	}
-	  
-	  
+
+
   }
-  
+
   function load_tooltips() {
 	global $SQL,$EQ_SLOT;
 	$tooltip = new tooltip($this->items,$this->item_instance,$this->guid,$this->data);
-	for($i=0;$i<19;$i++) {  
+	for($i=0;$i<19;$i++) {
 		$tooltip->transform($i);
 		$this->item_tooltips[$i] = $tooltip->output;
 	}
-	
+
   }
-  
+
   function read_items() {
 	  global $SQL,$mysql,$config;
 	  //die($this->data[HEAD_EQU_0_OFFSET]);
-	  $r = $mysql->getRows("select * from `character_inventory` where `guid` = ?1 and `slot` < 20",
+	  $r = $mysql->getRows("select * from `character_inventory` where `guid` = ?1 and `slot` < 18 and bag = 0",
 						   $this->guid,'char');
 	  foreach($r as $row) {
 		  $this->items[$row['slot']] = $row['item_template'];
 		  $this->item_instance[$row['slot']] = $row['item'];
 	  }
-	 
+
 	  foreach($this->items as $key => $value) {
-		$this->items_names[$key] = $this->get_item_name($value);  
+		$this->items_names[$key] = $this->get_item_name($value);
 	  }
   }
-  
+
   function get_item_name($id) {
 	     global $config,$mysql;
 	     $r = $mysql->getRow("select name from `item_template` where entry = ?1",$id,'armory');
 		 return $r['name'];
   }
-  
+
   function get_item_icon($slot) {
 	 global $config,$_SYSTEM,$_DOMAIN,$mysql;
 	 if($this->items[$slot]) {
@@ -357,7 +357,7 @@ class character {
 											$this->items[$slot],'armory');
 			 if(!$r || !file_exists('images/icon/'.strtolower(basename($r['itemicon'])).'.jpg') || basename($r['itemicon'])=='') {
 				 //('images/icon/'.str_replace('.png','',strtolower(basename($r['itemicon']))).'.jpg');
-			     if($_SYSTEM->update_icon_db($this->items[$slot])) 
+			     if($_SYSTEM->update_icon_db($this->items[$slot]))
 				    return $this->get_item_icon($slot);
 				 else return $_DOMAIN.'images/icon/inv_misc_questionmark.jpg'; // Aktualizacja nie udana :(
 			 }else return $_DOMAIN.'images/icon/'.strtolower(basename($r['itemicon'])).'.jpg';
@@ -365,7 +365,7 @@ class character {
 	 }
 	 return false;
   }
-  
+
   function read_skills() {
 	global $_LANGUAGE, $SQL;
 	$prof_1_array = array();
@@ -397,7 +397,7 @@ class character {
 			if($skill == 333 && $this->race == 10) { $temp[1]+=10; $max+=10; } // Krwawe elfy +10 enchanting
 			array_push($prof_1_array , array($skill, $this->get_skill_name($skill), $temp[1],$max));
 		}else{
-			
+
       		array_push($skill_array , array($skill, $this->get_skill_name($skill), $temp[1]>$this->level*5?$this->level*5:$temp[1], $skill==762?$temp[1]:$this->level*5));
     	}
       }
@@ -431,14 +431,14 @@ class character {
 	  $stats['stamina_bonus'] = $this->cstat($this->data[STAMINA_POS_OFFSET]) - $this->cstat($this->data[STAMINA_NEG_OFFSET]);
 	  $stats['intellect_bonus'] = $this->cstat($this->data[INTELLECT_POS_OFFSET]) - $this->cstat($this->data[INTELLECT_NEG_OFFSET]);
 	  $stats['spirit_bonus'] = $this->cstat($this->data[SPIRIT_POS_OFFSET]) - $this->cstat($this->data[SPIRIT_NEG_OFFSET]);
-	  
+
 	  $stats['strength_base'] = $this->data[STRENGTH_BASE_OFFSET] - $stats['strength_bonus'];
 	  $stats['agility_base'] = $this->data[AGILITY_BASE_OFFSET] - $stats['agility_bonus'];
 	  $stats['stamina_base'] = $this->data[STAMINA_BASE_OFFSET] - $stats['stamina_bonus'];
 	  $stats['intellect_base'] = $this->data[INTELLECT_BASE_OFFSET] - $stats['intellect_bonus'];
 	  $stats['spirit_base'] = $this->data[SPIRIT_BASE_OFFSET] - $stats['spirit_bonus'];
 	  $stats['mana_mod_intellect'] = ($stats['intellect_bonus']+$stats['intellect_base']-20 >=0 ? ($stats['intellect_bonus']+$stats['intellect_base']-20)*15 : 0) + ($stats['intellect_bonus']+$stats['intellect_base']>=20 ? 20 : $stats['intellect_bonus']+$stats['intellect_base']);
-	  
+
 	  // Obrona
 	  $stats['armor_bonus'] =  $this->cstat($this->data[ARMOR_POS_OFFSET]) -  $this->cstat($this->data[ARMOR_NEG_OFFSET]);
 	  $stats['armor_base'] = $this->data[ARMOR_BASE_OFFSET] - $stats['armor_bonus'];
@@ -447,12 +447,12 @@ class character {
 	  $stats['dodge'] = round($this->cstat($this->data[DODGE_OFFSET]),2);
 	  $stats['parry'] = round($this->cstat($this->data[PARRY_OFFSET]),2);
 	  $stats['block'] = round($this->cstat($this->data[BLOCK_OFFSET]),2);
-	  
+
 	  $stats['armor_mod'] = round($this->level < 60 ? (($stats['armor_bonus']+$stats['armor_base'])/(($stats['armor_bonus']+$stats['armor_base']) + 400 + 85 * $this->level)) : (($stats['armor_bonus']+$stats['armor_base']) / (($stats['armor_bonus']+$stats['armor_base']) + 400 + 85 * ($this->level + 4.5 * ($this->level - 59)))),4);
 	  $stats['armor_mod'] = ($stats['armor_mod'] > 0.75 ? 0.75 : $stats['armor_mod'])*100;
-	  
+
 	  $stats['health_mod_stamina'] = 10*($stats['stamina_bonus']+$stats['stamina_base']);
-	  
+
 	  // Odpornosci
 	  $stats['holy_res'] = $this->data[HOLY_RES_OFFSET];
 	  $stats['fire_res'] = $this->data[FIRE_RES_OFFSET];
@@ -460,7 +460,7 @@ class character {
 	  $stats['shadow_res'] = $this->data[SHADOW_RES_OFFSET];
 	  $stats['nature_res'] = $this->data[NATURE_RES_OFFSET];
 	  $stats['arcane_res'] = $this->data[ARCANE_RES_OFFSET];
-	  
+
 	  // Melee
 	  $stats['melee_damage_min'] = $this->cstat($this->data[MELEE_DAMAGE_MIN_OFFSET],0,-1); //Floor
 	  $stats['melee_damage_max'] = $this->cstat($this->data[MELEE_DAMAGE_MAX_OFFSET],0,1); //Ceil
@@ -468,11 +468,11 @@ class character {
 	  $stats['melee_damage_max_off'] = $this->cstat($this->data[MELEE_DAMAGE_MAX_OFF_OFFSET]);
 	  $stats['melee_speed'] = round($this->cstat($this->data[MELEE_SPEED_OFFSET])/1000,2);
 	  $stats['melee_speed_off'] = round($this->cstat($this->data[MELEE_SPEED_OFF_OFFSET])/1000,2);
-	  $stats['melee_ap_base'] = $this->data[MELEE_AP_OFFSET]; 
+	  $stats['melee_ap_base'] = $this->data[MELEE_AP_OFFSET];
 	  $stats['melee_ap_bonus'] = $this->data[MELEE_AP_MOD_OFFSET];
 	  $stats['melee_ap_mod'] = in_array($this->class,array(1,2,6,11)) ? 2*($stats['strength_base']+$stats['strength_bonus']) : ($stats['strength_base']+$stats['strength_bonus']);
 	  $stats['melee_ap_mod_agility'] = in_array($this->class,array(3,4,7)) ? ($stats['agility_base']+$stats['agility_bonus']) : 0;
-	  
+
 	  $stats['melee_hit_rating'] = $this->data[MELEE_HIT_RATING_OFFSET];
 	  $stats['melee_crit_rating'] = $this->data[MELEE_CRIT_RATING_OFFSET];
 	  $stats['melee_crit'] = round($this->cstat($this->data[MELEE_CRIT_OFFSET],2),2);
@@ -481,17 +481,17 @@ class character {
 	  $stats['melee_expertise_off'] = $this->data[MELEE_EXPERTISE_OFF_OFFSET];
 	  $stats['melee_expertise_proc'] = $this->data[MELEE_EXPERTISE_OFFSET]*0.25;
 	  $stats['melee_expertise_proc_off'] = $this->data[MELEE_EXPERTISE_OFF_OFFSET]*0.25;
-	  
+
 	  // Ranged
 	  $stats['ranged_damage_min'] = $this->cstat($this->data[RANGED_DAMAGE_MIN_OFFSET],0,-1);//Floor
 	  $stats['ranged_damage_max'] = $this->cstat($this->data[RANGED_DAMAGE_MAX_OFFSET],0,1);//Ceil
 	  $stats['ranged_speed'] = round($this->cstat($this->data[RANGED_SPEED_OFFSET])/1000,2);
-	  $stats['ranged_ap_base'] = $this->data[RANGED_AP_OFFSET]; 
+	  $stats['ranged_ap_base'] = $this->data[RANGED_AP_OFFSET];
 	  $stats['ranged_ap_bonus'] = $this->data[RANGED_AP_MOD_OFFSET];
 	  $stats['ranged_hit_rating'] = $this->data[RANGED_HIT_RATING_OFFSET];
 	  $stats['ranged_crit_rating'] = $this->data[RANGED_CRIT_RATING_OFFSET];
 	  $stats['ranged_crit'] = round($this->cstat($this->data[RANGED_CRIT_OFFSET],2),2);
-	  
+
 	  // Spell
 	  $stats['spell_bonus_holy'] = $this->data[SPELL_BONUS_HOLY_OFFSET];
 	  $stats['spell_bonus_fire'] = $this->data[SPELL_BONUS_FIRE_OFFSET];
@@ -500,8 +500,8 @@ class character {
 	  $stats['spell_bonus_shadow'] = $this->data[SPELL_BONUS_SHADOW_OFFSET];
 	  $stats['spell_bonus_arcane'] = $this->data[SPELL_BONUS_ARCANE_OFFSET];
 	  $stats['spell_bonus'] = 99999999999999;
-	  foreach($stats as $key => $value) 
-		if(strpos($key,'spell_bonus_')!==FALSE && $value<$stats['spell_bonus']) $stats['spell_bonus'] = $value; 
+	  foreach($stats as $key => $value)
+		if(strpos($key,'spell_bonus_')!==FALSE && $value<$stats['spell_bonus']) $stats['spell_bonus'] = $value;
 	  $stats['spell_bonus_healing'] = $this->data[SPELL_BONUS_HEALING_OFFSET];
 	  $stats['spell_hit_rating'] = $this->data[SPELL_HIT_RATING_OFFSET];
 	  $stats['spell_crit_rating'] = $this->data[SPELL_CRIT_RATING_OFFSET];
@@ -512,21 +512,21 @@ class character {
 	  $stats['spell_crit_shadow'] = round($this->cstat($this->data[SPELL_CRIT_SHADOW_OFFSET],2),2);
 	  $stats['spell_crit_arcane'] = round($this->cstat($this->data[SPELL_CRIT_ARCANE_OFFSET],2),2);
 	  $stats['spell_crit'] = 99999999999999;
-	  foreach($stats as $key => $value) 
+	  foreach($stats as $key => $value)
 		if(strpos($key,'spell_crit_')!==FALSE && $value<$stats['spell_crit']) $stats['spell_crit'] = $value;
 	  $stats['mana_regen'] = $this->cstat( $this->data[MANA_REGEN_OFFSET] )*5;
-	  
-	  
+
+
 	  $stats['max_health'] = $this->data[MAX_HEALTH_OFFSET];
 	  $stats['max_mana'] = $this->data[MAX_MANA_OFFSET];
 	  $stats['max_rage'] = $this->data[MAX_RAGE_OFFSET];
 	  $stats['max_energy'] = $this->data[MAX_ENERGY_OFFSET];
 	  $stats['max_focus'] = $this->data[MAX_FOCUS_OFFSET];
-	  
+
 	  $this->class==1 ? $stats['max_power'] = $stats['max_rage'] : ($this->class==4 || $this->class==6 ? $stats['max_power'] = $stats['max_energy'] : $stats['max_power'] = $stats['max_mana']);
 	  return $stats;
   }
-  
+
   function getPowerType() {
 	  global $_LANGUAGE;
 	  // I znow tlumaczenie przed zapisem do cache -.- Ja naprawde az taki glupi jestem...?
@@ -535,36 +535,36 @@ class character {
 	  elseif($this->class==6) return $_LANGUAGE->text['runic'];
 	  else return $_LANGUAGE->text['mana'];
   }
-  
+
   function getAlliance($race=-1) {
 	  if($race==-1) $race = $this->race;
 	  if(in_array($race,array(1,3,4,7,11))) return 0;
 	  return 1;
   }
-  
+
   function cstat($stat,$r=0,$u=0) {
 	$tmp = unpack("f", pack("L",$stat));
 	if($u==0) return round($tmp[1],$r);
 	else if($u==-1) return floor($tmp[1]);
 	else return ceil($tmp[1]);
    }
-  
+
   function raceToString($race) {
-	switch ($race) { 
+	switch ($race) {
 	    case 1: $rOut='human';
-		 break; 
+		 break;
 		 case 2: $rOut='orc';
 		 break;
 		 case 3: $rOut='dwarf';
-		 break; 
+		 break;
 		 case 4: $rOut='nightelf';
-		 break; 
+		 break;
 		 case 5: $rOut='undead';
-		 break;  
+		 break;
 		 case 6: $rOut='tauren';
 		 break;
 		 case 7: $rOut='gnome';
-		 break; 
+		 break;
 		 case 8: $rOut='troll';
 		 break;
 		 case 10: $rOut='bloodelf';
@@ -576,21 +576,21 @@ class character {
    }
 
 	function classToString($class) {
-		switch ($class) { 
+		switch ($class) {
 			case 1: $rOut='warrior';
-			 break; 
+			 break;
 			 case 2: $rOut='paladin';
 			 break;
 			 case 3: $rOut='hunter';
-			 break; 
+			 break;
 			 case 4: $rOut='rogue';
-			 break; 
+			 break;
 			 case 5: $rOut='priest';
 			 break;
 			 case 6: $rOut='deathknight';
 			 break;
 			 case 7: $rOut='shaman';
-			 break; 
+			 break;
 			 case 8: $rOut='mage';
 			 break;
 			 case 9: $rOut='warlock';
@@ -600,9 +600,9 @@ class character {
 	 }
 	 return $rOut;
 	}
-	
+
 	function get_skill_name($id) {
-		global $_LANGUAGE; 
+		global $_LANGUAGE;
 		$skill_id = Array(
 			773 => array(773, 'SKILL_INSCRIPTION'),
 			762 => array(762, 'SKILL_RIDING'),
@@ -698,7 +698,7 @@ class character {
 		// I znow... KU**A! Na liste TODO z tym...
 		return $_LANGUAGE->text[$skill_id[$id][1]];
 	}
-	
+
 	function debug() {
 	   echo 'GUID -> '.$this->guid.'<br>';
 	   echo 'NAME -> '.$this->name.'<br>';
@@ -706,32 +706,32 @@ class character {
 	   echo 'RACE -> '.$this->raceToString($this->race).' ('.$this->race.')<br>';
 	   echo 'CLASS -> '.$this->classToString($this->class).' ('.$this->class.')<br>';
 	   echo 'GENDER -> '.$this->gender.'<br>';
-	   
+
 	   echo 'PLAYED -> '.$this->played[0].' '.$this->played[1].' '.$this->played[2].'<br>';
-	   
+
 	   echo 'GUILD_ID -> '.$this->guild_id.'<br>';
 	   //echo 'DATA -> '.print_r($this->data).'<br>';
 	   echo '<hr><br>';
 	   echo 'STATS -> <br>';
 	   foreach($this->stats as $key => $value) {
-		  echo $key.' -> '.$value.'<br>';   
+		  echo $key.' -> '.$value.'<br>';
 	   }
 	   echo '<hr><br>';
 	   echo 'PRIMARY PROFS -> <br>';
 	   foreach($this->prof_1 as $value) {
-		 echo '     - ID: '.$value[0].', NAME: '.$value[1].' SKILL: '.$value[2].' / '.$value[3].'<br>'; 
+		 echo '     - ID: '.$value[0].', NAME: '.$value[1].' SKILL: '.$value[2].' / '.$value[3].'<br>';
 	   }
 	   echo '<hr><br>';
 	   echo 'SECONDARY PROFS -> <br>';
 	   foreach($this->prof_2 as $value) {
-		 echo '     - ID: '.$value[0].', NAME: '.$value[1].' SKILL: '.$value[2].' / '.$value[3].'<br>'; 
+		 echo '     - ID: '.$value[0].', NAME: '.$value[1].' SKILL: '.$value[2].' / '.$value[3].'<br>';
 	   }
 	   echo '<hr><br>';
 	   echo 'SKILLS -> <br>';
 	   foreach($this->skills as $value) {
-		 echo '     - ID: '.$value[0].', NAME: '.$value[1].' SKILL: '.$value[2].' / '.$value[3].'<br>'; 
+		 echo '     - ID: '.$value[0].', NAME: '.$value[1].' SKILL: '.$value[2].' / '.$value[3].'<br>';
 	   }
-	   
+
 	}
 }
 
