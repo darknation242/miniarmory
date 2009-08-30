@@ -140,7 +140,7 @@ class character {
 		foreach($talents as $key => $value) {
 			$ids .= $value['rank1'].',';
 		}
-		foreach($spells as $k => $v) {
+		if($spells) foreach($spells as $k => $v) {
 			$spell_ids.=$v['spell'].',';
 		}
 		$r = $mysql->getRows("SELECT id,SpellName FROM `spell` WHERE `id` IN (?1-1)",$ids.$spell_ids,'armory');
