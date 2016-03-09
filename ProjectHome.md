@@ -1,0 +1,1 @@
+The Armory for TrinityCore and TrinityCore2 database.
